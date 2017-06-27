@@ -209,7 +209,6 @@ public class ChessBoard {
 			for (int j = 0; j < BOARD_LENGTH; j++) {
 				result += String.valueOf(board[i][j]);
 			}
-			result += "\n";
 		}
 		return result;
 	}

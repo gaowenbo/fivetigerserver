@@ -1,5 +1,6 @@
 package com.qici.fivetiger;
 
+import com.alibaba.fastjson.JSONObject;
 
 public class GameLogic {
 
@@ -430,6 +431,24 @@ public class GameLogic {
 	
 	public String toString() {
 		return chessBoard.toString() + "phase:" + phase + ", dropFinished: " + dropFinished + ", movingFlag:" + movingFlagInfo.getFlag() + ", goal:" + movingFlagInfo.getGoal() + "," + waitingFlagInfo.getGoal() + ", result:" + result;
+	}
+	
+	public String toJson() {
+		JSONObject object = new JSONObject();
+		object.put("chessBoard", chessBoard.toString());
+		object.put("phase", phase);
+		object.put("dropFinished", dropFinished);
+		object.put("movingFlag", movingFlagInfo.getFlag());
+		if ( movingFlagInfo.getFlag() == GlobalConst.FENSIVE_FLAG) {
+			object.put("fensiveGoal", movingFlagInfo.getGoal());
+			object.put("defensiveGoal", waitingFlagInfo.getGoal());
+		} else {
+			object.put("fensiveGoal", waitingFlagInfo.getGoal());
+			object.put("defensiveGoal", movingFlagInfo.getGoal());			
+		}
+//		object.put("goal", phase);
+		object.put("result", result);
+		return object.toJSONString();
 	}
 
 }
