@@ -115,8 +115,8 @@ $(function(){
 		 layer: true,
 		fillStyle: '#CC9966',
 		  x: 0, y: 0,
-		  width: 1000,
-		  height: 1000
+		  width: 1500,
+		  height: 1500
 		});
 	
 	for(var i = 0; i < 5; i++){
