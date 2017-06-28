@@ -1,7 +1,8 @@
 $(function(){
-	const C_DISTANCE = 90;
-	const P_STARTX = 70;
-	const P_STARTY = 70;
+	const C_DISTANCE = 130;
+	const P_STARTX = 100;
+	const P_STARTY = 100;
+	const R_RADIUS = 60;
 	
 	var existCookie = $.cookie("guid");
 	if (existCookie == null) {
@@ -60,7 +61,7 @@ $(function(){
 	        		  fillStyle: chessfillStyle,
 	        		  x: C_DISTANCE * i + P_STARTX, 
 	        		  y: C_DISTANCE * j + P_STARTY,
-	        		  radius: 35,
+	        		  radius: R_RADIUS,
 	        		  opacity: chessOpacity,
 	           		  click:  function(layer) {
 	             			var places = layer.name.split('|')
@@ -80,7 +81,7 @@ $(function(){
 	             							x: C_DISTANCE * parseInt(mLastX) + P_STARTX, 
 	             							y: C_DISTANCE * parseInt(mLastY) + P_STARTY,
 	             							fillStyle: '#FF9999',
-	             							radius: 5
+	             							radius: 10
 	             						});
 	             					} else {
 	             						var moveAction = getAction(mLastX, mLastY, places[1], places[2])
