@@ -15,6 +15,7 @@
 
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
 <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/jquery.cookie.js"></script>
 
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="//cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -25,13 +26,6 @@
 
 </head>
 <body>
-<!--         <button id="btnGet" onclick="getMessages()">Get Messages</button> -->
-<!--         <button id="btnStop" onclick="stopMessages()" disabled="true">Stop Messages</button> -->
-<!--         <p id="demo"></p> -->
-<!--         <input id="msg" type="text" /> -->
-<!-- 		<button id="sendButton">Send</button> -->
-<!-- 		<div> -->
-<!-- 		</div> -->
 	<div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
@@ -44,8 +38,7 @@
 	</div>
 	<div class="row">
 		<div class="col-md-12" align="center">
-		
-			<canvas id = "canvas" width="500" height="500">
+			<canvas id = "canvas" width="800" height="800">
 			
 			</canvas>
 		</div>

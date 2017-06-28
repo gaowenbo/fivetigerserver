@@ -1,16 +1,23 @@
 $(function(){
-
 	const C_DISTANCE = 90;
-
 	const P_STARTX = 70;
 	const P_STARTY = 70;
 	
-	var url = (window.location.protocol === "https:" ? "wss:" : "ws:") + "//" + window.location.host + window.location.pathname + "message-endpoint" + location.search;
+	var existCookie = $.cookie("guid");
+	if (existCookie == null) {
+		existCookie = guid();
+		$.cookie("guid", existCookie);
+	}
+	var roomSearch = "";
+	if (location.search == "") {
+		roomSearch = "r";
+	} else {
+		roomSearch = location.search.substring(1);
+	}
+
+	var url = (window.location.protocol === "https:" ? "wss:" : "ws:") + "//" + window.location.host + window.location.pathname + "game?" + existCookie + ";" + roomSearch;
 	var websocket = new WebSocket(url);
-	// websocket.onopen = function() {
-	// 	websocket.send("GET");
-	// }
-	var flag = 0;
+	var flag = null;
 	var currentFlag = 1;
 	var phase = 0;
 	var fensiveGoal = 0;
@@ -24,8 +31,11 @@ $(function(){
 		phase = msg.phase;
 		fensiveGoal = msg.fensiveGoal;
 		defensiveGoal = msg.defensiveGoal;
+		if (msg.hasOwnProperty("flag")){
+			flag = msg.flag;
+		}
 		$('#canvas').removeLayerGroup('chesses');
-		        //先声明一维
+		   //先声明一维
 	       for(var i=0;i<5;i++){          //一维长度为5
 	          for(var j=0;j<5;j++){      //二维长度为5
 	        	  var chess = msg.chessBoard[i*5+j];
@@ -54,11 +64,6 @@ $(function(){
 	        		  opacity: chessOpacity,
 	           		  click:  function(layer) {
 	             			var places = layer.name.split('|')
-	             			//初始化
-	             			if (flag == 0) {
-	             				flag = currentFlag;
-	             			}
-	             			
 	             			if (flag == currentFlag) {
 	             				if (phase == 0) {
 	                 				websocket.send(currentFlag + "s" +  places[1] + places[2]);
@@ -134,59 +139,13 @@ $(function(){
 			});
 	}
 	
-//	$('#canvas').drawImage({
-//		layer: true,
-//		  source: 'resources/board.jpg',
-//		  opacity: 0.1,
-//		  x: 100, 
-//		  y: 100
-//		});
-	
+
 	$('#canvas').drawLayers();
 
-	
-//	 for(var i=0;i<5;i++){          //一维长度为5
-//         for(var j=0;j<5;j++){      //二维长度为5
-//       	  $('#canvas').drawArc({
-//       		  layer: true,
-//       		  index: 999,
-//       		  groups: ['board'],
-//       		  name: 'board|' + i + "|" + j,
-//       		  fillStyle:  '#585',
-//       		 opacity: 0,
-//       		  x: 100 * i + 100, y: 100 * j + 100,
-//       		  radius: 30,
-//
-//       		});
-//       
-//	       }
-//	 }
 	 
 	 websocket.onopen = function(event){
 		 websocket.send("come");
 	 }
-//	var ctx = document.getElementById("canvas").getContext("2d");
-//
-//	const P_STARTX = 70;
-//	const P_STARTY = 70;
-//	const C_DISTANCE = 90;
-//
-//	ctx.lineWidth="2";
-//	ctx.fillStyle="gray";
-//	ctx.fillRect(5,5,500,500);
-//	ctx.strokeStyle="black";
-//	ctx.beginPath();
-//	for(var i = 0; i < 5; i++){
-//		ctx.moveTo(P_STARTX, P_STARTY + C_DISTANCE * i);
-//		ctx.lineTo(P_STARTX + C_DISTANCE * 4,  P_STARTY + C_DISTANCE * i);
-//	}
-//	//竖线
-//	for(var i = 0; i < 5; i++){
-//		ctx.moveTo(P_STARTX + C_DISTANCE * i, P_STARTY);
-//		ctx.lineTo(P_STARTX + C_DISTANCE * i,  P_STARTY + C_DISTANCE*4);
-//	}
-//	
-//	ctx.stroke();
 	
 	function setText() {
 		if (currentFlag == 1) {
@@ -211,27 +170,41 @@ $(function(){
 			$("#result").text("白方获胜！");
 		}
 	}
+	
+	function getAction(lastX, lastY, x, y) {
+		if (lastX == x) {
+			if (parseInt(lastY) == parseInt(y) + 1) {
+				return "u";
+			} else if (parseInt(lastY) == parseInt(y) - 1) {
+				return "d";
+			} else {
+				return null;
+			}
+		} else if (lastY = y) {
+			if (parseInt(lastX) == parseInt(x) + 1) {
+				return "l";
+			} else if (parseInt(lastX) == parseInt(x) - 1) {
+				return "r";
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
+	}
+	
+	//$('#canvas').hide();
+	
+	
+	window.onbeforeunload = function(event) { 
+		websocket.onclose =function(){};
+		websocket.close();
+	}
 });
 
-
-function getAction(lastX, lastY, x, y) {
-	if (lastX == x) {
-		if (parseInt(lastY) == parseInt(y) + 1) {
-			return "u";
-		} else if (parseInt(lastY) == parseInt(y) - 1) {
-			return "d";
-		} else {
-			return null;
-		}
-	} else if (lastY = y) {
-		if (parseInt(lastX) == parseInt(x) + 1) {
-			return "l";
-		} else if (parseInt(lastX) == parseInt(x) - 1) {
-			return "r";
-		} else {
-			return null;
-		}
-	} else {
-		return null;
-	}
+function S4() {
+   return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+}
+function guid() {
+   return (S4()+S4()+S4()+S4()+S4()+S4()+S4()+S4());
 }

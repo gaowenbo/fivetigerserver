@@ -15,21 +15,23 @@ import javax.websocket.server.ServerEndpoint;
 import org.apache.log4j.Logger;
 import org.apache.tomcat.util.codec.binary.StringUtils;
 
+import com.alibaba.fastjson.JSONObject;
+import com.qici.fivetiger.Game;
 import com.qici.fivetiger.GameLogic;
 import com.qici.fivetiger.Step;
 
-@ServerEndpoint("/message-endpoint")
+@ServerEndpoint("/game")
 public class MessageEndpoint {
 
 	private static Map<String, Map<String, Session>> roomSessions = new HashMap<String, Map<String, Session>>();
 	
-	private static Map<String, GameLogic> roomLogic = new HashMap<String, GameLogic>();
+	private static Map<String, Game> roomLogic = new HashMap<String, Game>();
 	
 	private static final Logger logger = Logger.getLogger(MessageEndpoint.class);
 	
     @OnOpen
     public void onOpen(Session session) {
-    	String roomId = session.getQueryString();
+    	String roomId = getRoomID(session.getQueryString());
     	if (roomId == null || roomId.isEmpty()) {
     		return;
     	}
@@ -39,7 +41,7 @@ public class MessageEndpoint {
         		Map<String, Session> newRoom = new HashMap<String, Session>(3);
         		newRoom.put(session.getId(), session);
         		roomSessions.put(roomId, newRoom); 
-        		roomLogic.put(roomId, new GameLogic());
+        		roomLogic.put(roomId, new Game());
         	} else {
         		room.put(session.getId(), session);
         	}
@@ -51,36 +53,44 @@ public class MessageEndpoint {
     @OnMessage
     public void onMessage(String message, final Session session) {
 
-    	String roomId = session.getQueryString();
+    	String roomId = getRoomID(session.getQueryString());
     	if (roomId == null || roomId.isEmpty()) {
     		return;
     	}
-    	GameLogic gm = roomLogic.get(roomId);
+    	Game gm = roomLogic.get(roomId);
     	Map<String, Session> sessions =  roomSessions.get(roomId);
     	if (gm == null || sessions == null) {
     		logger.error("房间不存在");
     		return;
     	}
     	
-    	if (!message.equals("come")) {
-        	gm.go(new Step(message));
-    	}
-    	
-    	String result = gm.toJson();
-    	
-
-    	for (Entry<String, Session> entry : sessions.entrySet()) {
-    		try {
-				entry.getValue().getBasicRemote().sendText(result);
+    	String playerID = getPlayerID(session.getQueryString());
+ 
+    	if (message.equals("come")) {
+    		gm.addPlayer(playerID);
+    		JSONObject result = gm.toJson();
+			result.put("flag", gm.getFlag(playerID));
+			try {
+				session.getBasicRemote().sendText(result.toJSONString());
 			} catch (IOException e) {
 				logger.error(e.getMessage(), e);
 			}
+    	} else {
+    		gm.go(playerID, new Step(message));
+	    	JSONObject result = gm.toJson();
+	    	for (Entry<String, Session> entry : sessions.entrySet()) {
+	    		try {
+					entry.getValue().getBasicRemote().sendText(result.toJSONString());
+				} catch (IOException e) {
+					logger.error(e.getMessage(), e);
+				}
+	    	}
     	}
     }
 
     @OnClose
     public void onClose(Session session) {
-    	String roomId = session.getQueryString();
+    	String roomId = getRoomID(session.getQueryString());
     	if (roomId == null || roomId.isEmpty()) {
     		return;
     	}
@@ -96,5 +106,27 @@ public class MessageEndpoint {
 		}
     	
     	logger.info("Session " + session.getId() + " is closed.");
+    }
+    
+    private String getRoomID(String query){
+    	if (query == null) {
+    		return null;
+    	}
+    	
+    	String[] strs = query.split(";");
+    	if (strs.length >= 2) {
+    		return strs[1];
+    	} 
+    	return null;
+    }
+    
+    
+    private String getPlayerID(String query) {
+    	if (query == null) {
+    		return null;
+    	}
+    	
+    	String[] strs = query.split(";");
+    	return strs[0];
     }
 }

@@ -433,7 +433,7 @@ public class GameLogic {
 		return chessBoard.toString() + "phase:" + phase + ", dropFinished: " + dropFinished + ", movingFlag:" + movingFlagInfo.getFlag() + ", goal:" + movingFlagInfo.getGoal() + "," + waitingFlagInfo.getGoal() + ", result:" + result;
 	}
 	
-	public String toJson() {
+	public JSONObject toJson() {
 		JSONObject object = new JSONObject();
 		object.put("chessBoard", chessBoard.toString());
 		object.put("phase", phase);
@@ -448,7 +448,7 @@ public class GameLogic {
 		}
 //		object.put("goal", phase);
 		object.put("result", result);
-		return object.toJSONString();
+		return object;
 	}
 
 }

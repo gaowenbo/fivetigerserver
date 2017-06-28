@@ -73,3 +73,84 @@
 [17/06/02 17:20:31:253]	[fiveTigerDemo.MessageEndpoint-onOpen] [INFO]	Open session 27
 [17/06/02 17:45:36:716]	[fiveTigerDemo.MessageEndpoint-onClose] [INFO]	Session 27 is closed.
 [17/06/02 17:45:37:472]	[fiveTigerDemo.MessageEndpoint-onClose] [INFO]	Session 23 is closed.
+[17/06/28 10:20:52:981]	[fiveTigerDemo.MessageEndpoint-onOpen] [INFO]	Open session 0
+[17/06/28 10:20:55:609]	[fiveTigerDemo.MessageEndpoint-onClose] [INFO]	Session 0 is closed.
+[17/06/28 10:33:26:818]	[fiveTigerDemo.MessageEndpoint-onOpen] [INFO]	Open session 1
+[17/06/28 10:36:55:921]	[fiveTigerDemo.MessageEndpoint-onClose] [INFO]	Session 1 is closed.
+[17/06/28 10:36:56:233]	[fiveTigerDemo.MessageEndpoint-onOpen] [INFO]	Open session 2
+[17/06/28 10:37:03:744]	[fiveTigerDemo.MessageEndpoint-onClose] [INFO]	Session 2 is closed.
+[17/06/28 10:37:03:817]	[fiveTigerDemo.MessageEndpoint-onOpen] [INFO]	Open session 3
+[17/06/28 10:37:09:100]	[fiveTigerDemo.MessageEndpoint-onClose] [INFO]	Session 3 is closed.
+[17/06/28 15:02:34:813]	[fiveTigerDemo.MessageEndpoint-onOpen] [INFO]	Open session 0
+[17/06/28 15:02:34:877]	[fiveTigerDemo.MessageEndpoint-onMessage] [ERROR]	java.util.concurrent.ExecutionException: java.io.IOException: 您的主机中的软件中止了一个已建立的连接。
+java.io.IOException: java.util.concurrent.ExecutionException: java.io.IOException: 您的主机中的软件中止了一个已建立的连接。
+	at org.apache.tomcat.websocket.WsRemoteEndpointImplBase.sendPartialString(WsRemoteEndpointImplBase.java:258)
+	at org.apache.tomcat.websocket.WsRemoteEndpointImplBase.sendString(WsRemoteEndpointImplBase.java:193)
+	at org.apache.tomcat.websocket.WsRemoteEndpointBasic.sendText(WsRemoteEndpointBasic.java:37)
+	at fiveTigerDemo.MessageEndpoint.onMessage(MessageEndpoint.java:74)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.apache.tomcat.websocket.pojo.PojoMessageHandlerWholeBase.onMessage(PojoMessageHandlerWholeBase.java:80)
+	at org.apache.tomcat.websocket.WsFrameBase.sendMessageText(WsFrameBase.java:393)
+	at org.apache.tomcat.websocket.WsFrameBase.processDataText(WsFrameBase.java:494)
+	at org.apache.tomcat.websocket.WsFrameBase.processData(WsFrameBase.java:289)
+	at org.apache.tomcat.websocket.WsFrameBase.processInputBuffer(WsFrameBase.java:130)
+	at org.apache.tomcat.websocket.server.WsFrameServer.onDataAvailable(WsFrameServer.java:60)
+	at org.apache.tomcat.websocket.server.WsHttpUpgradeHandler$WsReadListener.onDataAvailable(WsHttpUpgradeHandler.java:203)
+	at org.apache.coyote.http11.upgrade.AbstractServletInputStream.onDataAvailable(AbstractServletInputStream.java:198)
+	at org.apache.coyote.http11.upgrade.AbstractProcessor.upgradeDispatch(AbstractProcessor.java:96)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:668)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1500)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.run(NioEndpoint.java:1456)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.util.concurrent.ExecutionException: java.io.IOException: 您的主机中的软件中止了一个已建立的连接。
+	at org.apache.tomcat.websocket.FutureToSendHandler.get(FutureToSendHandler.java:102)
+	at org.apache.tomcat.websocket.WsRemoteEndpointImplBase.sendPartialString(WsRemoteEndpointImplBase.java:254)
+	... 23 more
+Caused by: java.io.IOException: 您的主机中的软件中止了一个已建立的连接。
+	at sun.nio.ch.SocketDispatcher.write0(Native Method)
+	at sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:51)
+	at sun.nio.ch.IOUtil.writeFromNativeBuffer(IOUtil.java:93)
+	at sun.nio.ch.IOUtil.write(IOUtil.java:65)
+	at sun.nio.ch.SocketChannelImpl.write(SocketChannelImpl.java:471)
+	at org.apache.tomcat.util.net.NioChannel.write(NioChannel.java:124)
+	at org.apache.tomcat.util.net.NioSelectorPool.write(NioSelectorPool.java:183)
+	at org.apache.coyote.http11.upgrade.NioServletOutputStream.doWriteInternal(NioServletOutputStream.java:94)
+	at org.apache.coyote.http11.upgrade.NioServletOutputStream.doWrite(NioServletOutputStream.java:61)
+	at org.apache.coyote.http11.upgrade.AbstractServletOutputStream.writeInternal(AbstractServletOutputStream.java:165)
+	at org.apache.coyote.http11.upgrade.AbstractServletOutputStream.write(AbstractServletOutputStream.java:132)
+	at org.apache.tomcat.websocket.server.WsRemoteEndpointImplServer.onWritePossible(WsRemoteEndpointImplServer.java:98)
+	at org.apache.tomcat.websocket.server.WsRemoteEndpointImplServer.doWrite(WsRemoteEndpointImplServer.java:80)
+	at org.apache.tomcat.websocket.WsRemoteEndpointImplBase.writeMessagePart(WsRemoteEndpointImplBase.java:450)
+	at org.apache.tomcat.websocket.WsRemoteEndpointImplBase.startMessage(WsRemoteEndpointImplBase.java:338)
+	at org.apache.tomcat.websocket.WsRemoteEndpointImplBase$TextMessageSendHandler.write(WsRemoteEndpointImplBase.java:730)
+	at org.apache.tomcat.websocket.WsRemoteEndpointImplBase.sendPartialString(WsRemoteEndpointImplBase.java:250)
+	... 23 more
+[17/06/28 15:02:34:880]	[fiveTigerDemo.MessageEndpoint-onClose] [INFO]	Session 0 is closed.
+[17/06/28 15:02:35:432]	[fiveTigerDemo.MessageEndpoint-onOpen] [INFO]	Open session 1
+[17/06/28 15:14:53:568]	[fiveTigerDemo.MessageEndpoint-onOpen] [INFO]	Open session 0
+[17/06/28 15:15:03:947]	[fiveTigerDemo.MessageEndpoint-onOpen] [INFO]	Open session 1
+[17/06/28 15:15:14:072]	[fiveTigerDemo.MessageEndpoint-onClose] [INFO]	Session 1 is closed.
+[17/06/28 15:15:15:412]	[fiveTigerDemo.MessageEndpoint-onClose] [INFO]	Session 0 is closed.
+[17/06/28 16:33:20:397]	[fiveTigerDemo.MessageEndpoint-onOpen] [INFO]	Open session 0
+[17/06/28 16:34:44:445]	[fiveTigerDemo.MessageEndpoint-onClose] [INFO]	Session 0 is closed.
+[17/06/28 16:34:47:975]	[fiveTigerDemo.MessageEndpoint-onOpen] [INFO]	Open session 1
+[17/06/28 16:39:01:834]	[fiveTigerDemo.MessageEndpoint-onClose] [INFO]	Session 1 is closed.
+[17/06/28 16:39:09:061]	[fiveTigerDemo.MessageEndpoint-onOpen] [INFO]	Open session 2
+[17/06/28 16:39:29:031]	[fiveTigerDemo.MessageEndpoint-onOpen] [INFO]	Open session 3
+[17/06/28 16:39:33:712]	[fiveTigerDemo.MessageEndpoint-onClose] [INFO]	Session 3 is closed.
+[17/06/28 16:39:33:716]	[fiveTigerDemo.MessageEndpoint-onClose] [INFO]	Session 2 is closed.
+[17/06/28 16:44:06:427]	[fiveTigerDemo.MessageEndpoint-onOpen] [INFO]	Open session 4
+[17/06/28 16:44:29:980]	[fiveTigerDemo.MessageEndpoint-onOpen] [INFO]	Open session 5
+[17/06/28 16:44:58:716]	[fiveTigerDemo.MessageEndpoint-onOpen] [INFO]	Open session 6
+[17/06/28 16:45:33:540]	[fiveTigerDemo.MessageEndpoint-onOpen] [INFO]	Open session 7
+[17/06/28 16:47:26:583]	[fiveTigerDemo.MessageEndpoint-onClose] [INFO]	Session 4 is closed.
+[17/06/28 16:47:27:141]	[fiveTigerDemo.MessageEndpoint-onClose] [INFO]	Session 5 is closed.
+[17/06/28 16:47:27:702]	[fiveTigerDemo.MessageEndpoint-onClose] [INFO]	Session 6 is closed.
+[17/06/28 16:47:29:500]	[fiveTigerDemo.MessageEndpoint-onClose] [INFO]	Session 7 is closed.
+[17/06/28 16:47:30:441]	[fiveTigerDemo.MessageEndpoint-onOpen] [INFO]	Open session 8
