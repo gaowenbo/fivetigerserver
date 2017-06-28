@@ -1,5 +1,5 @@
 $(function(){
-	const C_DISTANCE = 130;
+	const C_DISTANCE = 150;
 	const P_STARTX = 100;
 	const P_STARTY = 100;
 	const R_RADIUS = 60;
@@ -115,8 +115,8 @@ $(function(){
 		 layer: true,
 		fillStyle: '#CC9966',
 		  x: 0, y: 0,
-		  width: 1500,
-		  height: 1500
+		  width: 1600,
+		  height: 1600
 		});
 	
 	for(var i = 0; i < 5; i++){
